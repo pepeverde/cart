@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.0
+
+- add findItems method to find by key and values
+- convert private Cart and CartItem property to protected to make it easier to extend classes
+- misc code refactoring
+
 ## 3.0.0
 
 - drop support for <5.6
