@@ -11,21 +11,21 @@ class Cart implements Arrayable
      *
      * @var string
      */
-    private $id;
+    protected $id;
 
     /**
      * Items in the cart.
      *
      * @var CartItem[]
      */
-    private $items = [];
+    protected $items = [];
 
     /**
      * Cart storage implementation.
      *
      * @var Store
      */
-    private $store;
+    protected $store;
 
     /**
      * Create a new cart instance.
