@@ -53,9 +53,7 @@ class CartItem implements \ArrayAccess, Arrayable
             unset($hashData[$key]);
         }
 
-        $hash = sha1(serialize($hashData));
-
-        return $hash;
+        return sha1(serialize($hashData));
     }
 
     /**
@@ -67,21 +65,22 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function get($key)
     {
-        switch ($key) {
-            case 'id':
-                return $this->getId();
-            default:
-                return $this->data[$key];
+        if ($key === 'id') {
+            return $this->getId();
         }
+
+        return $this->data[$key];
     }
 
     /**
      * Set a piece of data on the cart item.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return string
+     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function set($key, $value)
     {
@@ -104,14 +103,15 @@ class CartItem implements \ArrayAccess, Arrayable
     /**
      * Check the value being set is an integer.
      *
-     * @param mixed  $value
+     * @param mixed $value
      * @param string $name
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
     private function setCheckTypeInteger($value, $name)
     {
-        if (!is_integer($value)) {
+        if (!is_int($value)) {
             throw new \InvalidArgumentException(sprintf('%s must be an integer.', $name));
         }
     }
@@ -119,9 +119,10 @@ class CartItem implements \ArrayAccess, Arrayable
     /**
      * Check the value being set is an integer.
      *
-     * @param mixed  $value
+     * @param mixed $value
      * @param string $name
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
     private function setCheckIsNumeric($value, $name)
@@ -232,7 +233,9 @@ class CartItem implements \ArrayAccess, Arrayable
      * Set a piece of data on the cart item.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
+     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function offsetSet($key, $value)
     {
@@ -265,7 +268,9 @@ class CartItem implements \ArrayAccess, Arrayable
      * Set a piece of data on the cart item.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
+     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function __set($key, $value)
     {

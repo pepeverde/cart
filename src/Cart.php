@@ -31,7 +31,7 @@ class Cart implements Arrayable
      * Create a new cart instance.
      *
      * @param string $id
-     * @param Store  $store
+     * @param Store $store
      */
     public function __construct($id, Store $store)
     {
@@ -109,10 +109,11 @@ class Cart implements Arrayable
      *
      * @param string $itemId
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return string
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
     public function update($itemId, $key, $value)
@@ -149,7 +150,7 @@ class Cart implements Arrayable
      */
     public function has($itemId)
     {
-        return !is_null($this->find($itemId));
+        return null !== $this->find($itemId);
     }
 
     /**
@@ -167,7 +168,7 @@ class Cart implements Arrayable
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -181,7 +182,7 @@ class Cart implements Arrayable
     public function findItems($key, $value)
     {
         $value = (array)$value;
-        $return_items = array_filter($this->items, function ($item) use ($key, $value){
+        $return_items = array_filter($this->items, function ($item) use ($key, $value) {
             return in_array($item[$key], $value, true);
         });
 
@@ -219,7 +220,7 @@ class Cart implements Arrayable
      */
     public function total()
     {
-        return (float) array_sum(
+        return (float)array_sum(
             array_map(function (CartItem $item) {
                 return $item->getTotalPrice();
             }, $this->items)
@@ -233,7 +234,7 @@ class Cart implements Arrayable
      */
     public function totalExcludingTax()
     {
-        return (float) array_sum(
+        return (float)array_sum(
             array_map(function (CartItem $item) {
                 return $item->getTotalPriceExcludingTax();
             }, $this->items)
@@ -247,7 +248,7 @@ class Cart implements Arrayable
      */
     public function tax()
     {
-        return (float) array_sum(
+        return (float)array_sum(
             array_map(function (CartItem $item) {
                 return $item->getTotalTax();
             }, $this->items)
@@ -277,14 +278,15 @@ class Cart implements Arrayable
     /**
      * Restore the cart from its saved state.
      *
+     * @throws \Exception
      * @throws CartRestoreException
      */
     public function restore()
     {
         $state = $this->store->get($this->id);
 
-        if ($state == '') {
-            return;
+        if ($state === '') {
+            return null;
         }
 
         $data = @unserialize($state); // suppress unserializable error
@@ -306,6 +308,7 @@ class Cart implements Arrayable
      *
      * @param mixed $data
      *
+     * @throws \Exception
      * @throws CartRestoreException
      */
     private function restoreCheckType($data)
@@ -324,11 +327,12 @@ class Cart implements Arrayable
      *
      * @param array $data
      *
+     * @throws \Exception
      * @throws CartRestoreException
      */
     private function restoreCheckContents(array $data)
     {
-        if (!isset($data['id']) || !isset($data['items'])) {
+        if (!isset($data['id'], $data['items'])) {
             throw new CartRestoreException('Missing cart ID or cart items.');
         }
     }
@@ -338,6 +342,7 @@ class Cart implements Arrayable
      *
      * @param array $data
      *
+     * @throws \Exception
      * @throws CartRestoreException
      */
     private function restoreCheckContentsType(array $data)
