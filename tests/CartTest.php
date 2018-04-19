@@ -384,6 +384,30 @@ class CartTest extends TestCase
         $this->assertEquals($exceptionCounter, 6);
     }
 
+    public function testFindItems()
+    {
+        $cart = $this->getCart();
+
+        $item1 = new CartItem([
+            'name' => 'foo',
+            'quantity' => 2,
+            'size' => 'XXL'
+        ]);
+
+        $item2 = new CartItem([
+            'name' => 'bar',
+            'quantity' => 1,
+            'size' => 'S'
+        ]);
+
+        $cart->add($item1);
+        $cart->add($item2);
+
+        $items = $cart->findItems('size', 'S');
+        $this->assertCount(1, $items);
+        $this->assertEquals('S', $items[0]->size);
+    }
+
     public function getCart()
     {
         $store = m::mock('Cart\Storage\Store');

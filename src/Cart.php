@@ -174,20 +174,18 @@ class Cart implements Arrayable
      * Find multiple items with key & value pair
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed $value will be cast to array to search multiple values at once
      *
      * @return CartItem[]
      */
     public function findItems($key, $value)
     {
-        $return_items = [];
-        foreach ($this->items as $item) {
-            if ($value === $item[$key]) {
-                $return_items[] = $item;
-            }
-        }
+        $value = (array)$value;
+        $return_items = array_filter($this->items, function ($item) use ($key, $value){
+            return in_array($item[$key], $value, true);
+        });
 
-        return $return_items;
+        return array_values($return_items);
     }
 
     /**
