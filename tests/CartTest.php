@@ -6,6 +6,8 @@ use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 
+use Cart\Storage\Store;
+
 class CartTest extends TestCase
 {
     public function tearDown()
@@ -17,14 +19,20 @@ class CartTest extends TestCase
     {
         $cart = $this->getCart();
 
-        $this->assertInstanceOf('Cart\Arrayable', $cart);
+        $this->assertInstanceOf(Arrayable::class, $cart);
+
+        $item = new CartItem([
+            'name' => 'foo',
+        ]);
+
+        $cart->add($item);
 
         $cartArr = $cart->toArray();
 
-        $this->assertTrue(is_array($cartArr));
+        $this->assertInternalType('array', $cartArr);
         $this->assertArrayHasKey('id', $cartArr);
         $this->assertArrayHasKey('items', $cartArr);
-        $this->assertTrue(is_array($cartArr['items']));
+        $this->assertInternalType('array', $cartArr['items']);
     }
 
     public function testGetId()
@@ -186,13 +194,13 @@ class CartTest extends TestCase
 
         $cartItems = $cart->all();
 
-        $this->assertTrue(is_array($cartItems));
+        $this->assertInternalType('array', $cartItems);
         $this->assertSame($cartItems, Assert::readAttribute($cart, 'items'));
     }
 
     public function testClear()
     {
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
         $store->shouldReceive('flush')->times(1);
 
         $cart = new Cart('foo', $store);
@@ -212,7 +220,7 @@ class CartTest extends TestCase
 
         $cartItems = $cart->all();
 
-        $this->assertTrue(count($cartItems) == 0);
+        $this->assertCount(0, $cartItems);
     }
 
     public function testTotal()
@@ -238,7 +246,7 @@ class CartTest extends TestCase
 
         $total = $cart->total();
 
-        $this->assertTrue(is_float($total));
+        $this->assertInternalType('float', $total);
         $this->assertSame($total, 42.00);
     }
 
@@ -265,7 +273,7 @@ class CartTest extends TestCase
 
         $total = $cart->totalExcludingTax();
 
-        $this->assertTrue(is_float($total));
+        $this->assertInternalType('float', $total);
         $this->assertSame($total, 30.00);
     }
 
@@ -292,13 +300,13 @@ class CartTest extends TestCase
 
         $tax = $cart->tax(false);
 
-        $this->assertTrue(is_float($tax));
+        $this->assertInternalType('float', $tax);
         $this->assertSame($tax, 12.00);
     }
 
     public function testSave()
     {
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
         $store->shouldReceive('put')->times(1);
 
         $cart = new Cart('foo', $store);
@@ -324,7 +332,7 @@ class CartTest extends TestCase
             ],
         ];
 
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
         $store
             ->shouldReceive('get')
             ->times(1)
@@ -335,14 +343,14 @@ class CartTest extends TestCase
         $cart->restore();
 
         $this->assertSame('foo', $cart->getId());
-        $this->assertTrue($cart->totalUniqueItems() == 2);
+        $this->assertEquals($cart->totalUniqueItems(), 2);
         $this->assertTrue($cart->has($item1->id));
         $this->assertTrue($cart->has($item2->id));
     }
 
     public function testEmptyRestore()
     {
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
         $store
             ->shouldReceive('get')
             ->times(1)
@@ -357,7 +365,7 @@ class CartTest extends TestCase
     {
         $exceptionCounter = 0;
 
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
 
         $store
             ->shouldReceive('get')
@@ -410,7 +418,7 @@ class CartTest extends TestCase
 
     public function getCart()
     {
-        $store = m::mock('Cart\Storage\Store');
+        $store = m::mock(Store::class);
 
         return new Cart('foo', $store);
     }

@@ -4,20 +4,21 @@ namespace Cart;
 
 use PHPUnit\Framework\TestCase;
 
+
 class CartItemTest extends TestCase
 {
     public function testIsArrayable()
     {
         $item = new CartItem();
 
-        $this->assertInstanceOf('Cart\Arrayable', $item);
+        $this->assertInstanceOf(Arrayable::class, $item);
 
         $itemArr = $item->toArray();
 
-        $this->assertTrue(is_array($itemArr));
+        $this->assertInternalType('array', $itemArr);
         $this->assertArrayHasKey('id', $itemArr);
         $this->assertArrayHasKey('data', $itemArr);
-        $this->assertTrue(is_array($itemArr['data']));
+        $this->assertInternalType('array', $itemArr['data']);
     }
 
     public function testSetAndGetData()
@@ -67,10 +68,10 @@ class CartItemTest extends TestCase
 
         $item = new CartItem($itemData);
 
-        $this->assertTrue($item->name == 'foo');
-        $this->assertTrue($item->price === 10.00);
-        $this->assertTrue($item->tax === 1.00);
-        $this->assertTrue($item->quantity === 5);
+        $this->assertEquals($item->name, 'foo');
+        $this->assertSame($item->price, 10.00);
+        $this->assertSame($item->tax, 1.00);
+        $this->assertSame($item->quantity, 5);
     }
 
     public function testConstructorSetsDefaults()
@@ -81,9 +82,9 @@ class CartItemTest extends TestCase
 
         $item = new CartItem($itemData);
 
-        $this->assertTrue($item->price === 0.00);
-        $this->assertTrue($item->tax === 0.00);
-        $this->assertTrue($item->quantity === 1);
+        $this->assertSame($item->price, 0.00);
+        $this->assertSame($item->tax, 0.00);
+        $this->assertSame($item->quantity, 1);
     }
 
     public function testQuantityMustBeInteger()
@@ -113,8 +114,8 @@ class CartItemTest extends TestCase
         $item->price = '10.00';
         $item->tax = '5.00';
 
-        $this->assertTrue(is_float($item->price));
-        $this->assertTrue(is_float($item->tax));
+        $this->assertInternalType('float', $item->price);
+        $this->assertInternalType('float', $item->tax);
     }
 
     public function testGettingIdPropertyReturnsItemId()
@@ -144,7 +145,7 @@ class CartItemTest extends TestCase
         $price = $item->getSinglePrice();
 
         $this->assertEquals(15.00, $price);
-        $this->assertTrue(is_float($price));
+        $this->assertInternalType('float', $price);
     }
 
     public function testGetSinglePriceExcludingTax()
@@ -157,7 +158,7 @@ class CartItemTest extends TestCase
         $price = $item->getSinglePriceExcludingTax();
 
         $this->assertEquals(10.00, $price);
-        $this->assertTrue(is_float($price));
+        $this->assertInternalType('float', $price);
     }
 
     public function testGetTotalPrice()
@@ -171,7 +172,7 @@ class CartItemTest extends TestCase
         $price = $item->getTotalPrice();
 
         $this->assertEquals(30.00, $price);
-        $this->assertTrue(is_float($price));
+        $this->assertInternalType('float', $price);
     }
 
     public function testGetTotalPriceExcludingTax()
@@ -185,7 +186,7 @@ class CartItemTest extends TestCase
         $price = $item->getTotalPriceExcludingTax();
 
         $this->assertEquals(20.00, $price);
-        $this->assertTrue(is_float($price));
+        $this->assertInternalType('float', $price);
     }
 
     public function testGetTotalTax()
@@ -198,7 +199,7 @@ class CartItemTest extends TestCase
         $tax = $item->getTotalTax();
 
         $this->assertEquals(10.00, $tax);
-        $this->assertTrue(is_float($tax));
+        $this->assertInternalType('float', $tax);
     }
 
     public function testGetSingleTax()
@@ -211,6 +212,6 @@ class CartItemTest extends TestCase
         $tax = $item->getSingleTax();
 
         $this->assertEquals(5.00, $tax);
-        $this->assertTrue(is_float($tax));
+        $this->assertInternalType('float', $tax);
     }
 }
