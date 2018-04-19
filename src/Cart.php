@@ -178,11 +178,13 @@ class Cart implements Arrayable
      *
      * @return CartItem[]
      */
-    public function findItems($key, $value){
-        $return_items = array();
-        foreach($this->items as $item){
-            if($value === $item[$key])
+    public function findItems($key, $value)
+    {
+        $return_items = [];
+        foreach ($this->items as $item) {
+            if ($value === $item[$key]) {
                 $return_items[] = $item;
+            }
         }
 
         return $return_items;
