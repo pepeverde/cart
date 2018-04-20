@@ -1,13 +1,5 @@
 # Cart
 
-[![Packagist](https://img.shields.io/packagist/v/mike182uk/cart.svg?style=flat-square)](https://packagist.org/packages/mike182uk/cart)
-[![Build Status](https://img.shields.io/travis/mike182uk/cart.svg?style=flat-square)](http://travis-ci.org/mike182uk/cart)
-[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/mike182uk/cart.svg?style=flat-square)](https://scrutinizer-ci.com/g/mike182uk/cart/)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/1d82048a-1390-42d5-8605-606541e81c98.svg?style=flat-square)](https://insight.sensiolabs.com/projects/1d82048a-1390-42d5-8605-606541e81c98)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/mike182uk/cart.svg?style=flat-square)](https://scrutinizer-ci.com/g/mike182uk/cart/)
-[![Total Downloads](https://img.shields.io/packagist/dt/mike182uk/cart.svg?style=flat-square)](https://packagist.org/packages/mike182uk/cart)
-[![License](https://img.shields.io/github/license/mike182uk/cart.svg?style=flat-square)](https://packagist.org/packages/mike182uk/cart)
-
 A flexible and modern shopping cart package.
 
 ## Prerequisites
@@ -17,7 +9,7 @@ A flexible and modern shopping cart package.
 ## Installation
 
 ```bash
-composer require mike182uk/cart
+composer require pepeverde/cart
 ```
 
 ## Usage

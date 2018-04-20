@@ -4,9 +4,9 @@ namespace Cart;
 
 /**
  * @property string $id
- * @property int    $quantity
- * @property float  $price
- * @property float  $tax
+ * @property int $quantity
+ * @property float $price
+ * @property float $tax
  */
 class CartItem implements \ArrayAccess, Arrayable
 {
@@ -87,12 +87,11 @@ class CartItem implements \ArrayAccess, Arrayable
         switch ($key) {
             case 'quantity':
                 $this->setCheckTypeInteger($value, $key);
-            break;
+                break;
             case 'price':
             case 'tax':
                 $this->setCheckIsNumeric($value, $key);
-
-                $value = (float) $value;
+                $value = (float)$value;
         }
 
         $this->data[$key] = $value;
@@ -139,7 +138,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getTotalPrice()
     {
-        return (float) ($this->price + $this->tax) * $this->quantity;
+        return (float)($this->price + $this->tax) * $this->quantity;
     }
 
     /**
@@ -149,7 +148,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getTotalPriceExcludingTax()
     {
-        return (float) $this->price * $this->quantity;
+        return (float)$this->price * $this->quantity;
     }
 
     /**
@@ -159,7 +158,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getSinglePrice()
     {
-        return (float) $this->price + $this->tax;
+        return (float)$this->price + $this->tax;
     }
 
     /**
@@ -169,7 +168,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getSinglePriceExcludingTax()
     {
-        return (float) $this->price;
+        return (float)$this->price;
     }
 
     /**
@@ -179,7 +178,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getTotalTax()
     {
-        return (float) $this->tax * $this->quantity;
+        return (float)$this->tax * $this->quantity;
     }
 
     /**
@@ -189,7 +188,7 @@ class CartItem implements \ArrayAccess, Arrayable
      */
     public function getSingleTax()
     {
-        return (float) $this->tax;
+        return (float)$this->tax;
     }
 
     /**

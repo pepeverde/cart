@@ -4,7 +4,6 @@ namespace Cart;
 
 use PHPUnit\Framework\TestCase;
 
-
 class CartItemTest extends TestCase
 {
     public function testIsArrayable()
