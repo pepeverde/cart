@@ -311,7 +311,7 @@ class Cart implements Arrayable
      * @throws \Exception
      * @throws CartRestoreException
      */
-    private function restoreCheckType($data)
+    protected function restoreCheckType($data)
     {
         if ($data === false) {
             throw new CartRestoreException('Saved cart state is unserializable.');
@@ -330,7 +330,7 @@ class Cart implements Arrayable
      * @throws \Exception
      * @throws CartRestoreException
      */
-    private function restoreCheckContents(array $data)
+    protected function restoreCheckContents(array $data)
     {
         if (!isset($data['id'], $data['items'])) {
             throw new CartRestoreException('Missing cart ID or cart items.');
@@ -345,7 +345,7 @@ class Cart implements Arrayable
      * @throws \Exception
      * @throws CartRestoreException
      */
-    private function restoreCheckContentsType(array $data)
+    protected function restoreCheckContentsType(array $data)
     {
         if (!is_string($data['id']) || !is_array($data['items'])) {
             throw new CartRestoreException('Cart ID not a string or cart items not an array.');
